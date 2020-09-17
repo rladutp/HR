@@ -16,6 +16,15 @@ public class Hr {
     public void onPostPersist(){
         System.out.println("##### driverId #####"+this.getDriverId());
         System.out.println("##### status #####"+this.getDriverStatus());
+
+        //view에 넣기 위해 카프카로 보낸다.
+        Registered registered = new Registered();
+        registered.setDriverId(this.getDriverId());
+        registered.setDriverStatus(this.getDriverStatus());
+        BeanUtils.copyProperties(this, registered);
+        registered.publishAfterCommit();
+        System.out.println("5678");
+
     }
 
     public Long getDriverId() {
